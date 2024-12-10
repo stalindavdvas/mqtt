@@ -1,0 +1,16 @@
+# Ignorar directorios de dependencias
+/vendor/
+
+# Ignorar configuraciones locales de editores
+/.vscode/
+/.idea/
+
+# Ignorar archivos temporales de sistema
+*.log
+*.tmp
+
+# Ignorar archivos de Composer que contienen configuraciones locales
+composer.lock
+
+# Ignorar archivos específicos de XAMPP
+/htdocs/
