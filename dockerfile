@@ -1,23 +1,22 @@
-# Usar la imagen oficial de Node.js
-FROM node:18
+# Usar la imagen oficial de PHP con Apache
+FROM php:8.1-apache
 
 # Mantenedor de la imagen
 LABEL maintainer="your_name@example.com"
 
-# Crear directorio de trabajo en la imagen
-WORKDIR /app
+# Instalar extensiones de PHP necesarias, si las hubiera
+RUN apt-get update && apt-get install -y \
+    libssl-dev \
+    && docker-php-ext-install sockets
 
-# Copiar package.json y package-lock.json para instalar dependencias
-COPY package*.json ./
+# Copiar los archivos de la aplicación PHP al directorio de Apache
+COPY . /var/www/html/
 
-# Instalar dependencias de la aplicación
-RUN npm install --production
+# Dar permisos a los archivos
+RUN chown -R www-data:www-data /var/www/html/
 
-# Copiar el resto de la aplicación
-COPY . .
+# Exponer el puerto 80 para acceso HTTP
+EXPOSE 80
 
-# Exponer el puerto en el que se ejecuta el servicio (ejemplo: 3000)
-EXPOSE 3000
-
-# Comando para iniciar la aplicación
-CMD ["npm", "start"]
+# Iniciar Apache
+CMD ["apache2-foreground"]
